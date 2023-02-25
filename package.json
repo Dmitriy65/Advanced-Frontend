@@ -22,8 +22,7 @@
     "lint:typecheck": "tsc --project ./tsconfig.json --noEmit",
     "storybook": "start-storybook -p 6006 -c ./config/storybook",
     "storybook:build": "build-storybook -c ./config/storybook",
-    "prepare": "husky install",
-    "prettier:write": "prettier --write \"src/**/*.{js,ts,less,scss,css,html}\""
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -124,6 +123,6 @@
     "src/**/*.ts": [
       "eslint"
     ],
-    "src/**/*.{ts,less,scss,css,html}": "prettier --write"
+    "src/**/*.{scss}": ["lint:scss"]
   }
 }
