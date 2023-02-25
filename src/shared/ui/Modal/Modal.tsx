@@ -1,6 +1,7 @@
 import { classNames } from 'shared/lib/classNames/classNames';
 import React, { ReactNode, useEffect, useCallback } from 'react';
 import { Portal } from 'shared/ui/Portal/Portal';
+import { useTheme } from 'app/providers/ThemeProvider';
 import cls from './Modal.module.scss';
 
 interface ModalProps {
@@ -27,6 +28,8 @@ export const Modal = (props: ModalProps) => {
             onClose();
         }
     }, [onClose]);
+
+    const { theme } = useTheme();
 
     const contentClickHandler = (e: React.MouseEvent) => {
         e.stopPropagation();
