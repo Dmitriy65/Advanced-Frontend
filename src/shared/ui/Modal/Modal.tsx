@@ -29,8 +29,6 @@ export const Modal = (props: ModalProps) => {
         }
     }, [onClose]);
 
-    const { theme } = useTheme();
-
     const contentClickHandler = (e: React.MouseEvent) => {
         e.stopPropagation();
     };
