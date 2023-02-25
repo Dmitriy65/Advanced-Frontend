@@ -122,14 +122,12 @@
     }
   },
   "lint-staged": {
-    "src/**/*.ts": [
+    "src/**/*.{ts}": [
       "eslint"
     ],
     "src/**/*.{scss}": [
       "lint:scss"
     ],
-    "src/**/*.{js, ts,scss,css}": [
-      "prettier --write"
-    ]
+    "src/**/*.{ts,less,scss,css,html}": "prettier --write"
   }
 }
