@@ -122,11 +122,6 @@
       }
     }
   },
-  "jest": {
-    "moduleNameMapper": {
-      "axios": "axios/dist/node/axios.cjs"
-    }
-  },
   "lint-staged": {
     "src/**/*.{ts}": [
       "eslint"
