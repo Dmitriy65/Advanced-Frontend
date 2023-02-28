@@ -1,8 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { LoginScheme } from 'features/AuthByUsername';
-import { User, userActions, userReducer } from 'entities/User';
-import { USER_LOCALSTORAGE_KEY } from 'shared/constants/localStorage';
+import { User, userActions } from 'entities/User';
 
 type AuthDataProps = Pick<LoginScheme, 'username' | 'password'>;
 
