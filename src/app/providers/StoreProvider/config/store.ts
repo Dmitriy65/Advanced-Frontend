@@ -1,12 +1,19 @@
 import {
-    Action, configureStore, Dispatch, isAnyOf, isFulfilled, ReducersMapObject,
+    Action,
+    AnyAction,
+    configureStore,
+    Dispatch,
+    isAnyOf,
+    isFulfilled,
+    MiddlewareArray,
+    ReducersMapObject,
 } from '@reduxjs/toolkit';
 import { counterReducer } from 'entities/Counter';
 import { userActions, userReducer } from 'entities/User';
-import { loginReducer } from 'features/AuthByUsername';
 import { USER_LOCALSTORAGE_KEY } from 'shared/constants/localStorage';
 import { loginByUsername } from 'features/AuthByUsername/model/services/loginByUsername';
-import { StateScheme } from './StateScheme';
+import { createReducerManager } from 'app/providers/StoreProvider/config/reducerManager';
+import { ReducersScheme, StateScheme } from './StateScheme';
 
 interface Store {
     dispatch: Dispatch;
@@ -28,17 +35,24 @@ const authMiddleware = (store: Store) => (next: (action: Action) => void) => (ac
     next(action);
 };
 
-export function createReduxStore(initialState: StateScheme) {
-    const rootReducers: ReducersMapObject<StateScheme> = {
+export function createReduxStore(initialState: StateScheme, asyncReducers: ReducersScheme) {
+    const rootReducers: ReducersScheme = {
+        ...asyncReducers,
         counter: counterReducer,
         user: userReducer,
-        loginForm: loginReducer,
     };
 
-    return configureStore({
-        reducer: rootReducers,
+    const reducerManager = createReducerManager(rootReducers);
+
+    const store = configureStore<StateScheme, AnyAction, MiddlewareArray<any>>({
+        reducer: reducerManager.reduce,
         devTools: __IS_DEV__,
         preloadedState: initialState,
         middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authMiddleware),
     });
+
+    // @ts-ignore
+    store.reducerManager = reducerManager;
+
+    return store;
 }
