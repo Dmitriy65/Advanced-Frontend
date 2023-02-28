@@ -10,7 +10,7 @@ const defaultAsyncReducers: DeepPartial<ReducersScheme> = {
 
 export const StoreDecorator = (
     state: DeepPartial<StateScheme>,
-    asyncReducers: DeepPartial<ReducersScheme>,
+    asyncReducers?: DeepPartial<ReducersScheme>,
 ) => (StoryComponent: Story) => (
     <StoreProvider
         initialState={state as StateScheme}
