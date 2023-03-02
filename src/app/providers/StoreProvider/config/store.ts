@@ -6,7 +6,6 @@ import {
     isAnyOf,
     isFulfilled,
     MiddlewareArray,
-    ReducersMapObject,
 } from '@reduxjs/toolkit';
 import { counterReducer } from 'entities/Counter';
 import { userActions, userReducer } from 'entities/User';
