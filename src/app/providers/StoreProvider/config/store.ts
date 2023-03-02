@@ -43,7 +43,7 @@ export function createReduxStore(initialState: StateScheme, asyncReducers: Reduc
 
     const reducerManager = createReducerManager(rootReducers);
 
-    const store = configureStore<StateScheme, AnyAction, MiddlewareArray<any>>({
+    const store = configureStore({
         reducer: reducerManager.reduce,
         devTools: __IS_DEV__,
         preloadedState: initialState,
@@ -55,3 +55,5 @@ export function createReduxStore(initialState: StateScheme, asyncReducers: Reduc
 
     return store;
 }
+
+export type AppDispatch = ReturnType<typeof createReduxStore>['dispatch'];
