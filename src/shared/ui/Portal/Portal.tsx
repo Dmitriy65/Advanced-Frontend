@@ -10,7 +10,7 @@ interface PortalProps {
 
 export const Portal = (props: PortalProps) => {
     const { children, element = document.body } = props;
-    const ref = useRef();
+    const ref = useRef<HTMLElement | null>(null);
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {

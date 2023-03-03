@@ -1,5 +1,4 @@
 import { StateScheme } from 'app/providers/StoreProvider/config/StateScheme';
-import { DeepPartial } from '@reduxjs/toolkit';
 import { getCounter } from 'entities/Counter/model/selectors/getCounter/getCounter';
 
 describe('getCounter', () => {

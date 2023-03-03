@@ -6,7 +6,7 @@ const initialState: LoginScheme = {
     username: '',
     password: '',
     isLoading: false,
-    error: null,
+    error: undefined,
 };
 
 const loginSlice = createSlice({
@@ -24,7 +24,7 @@ const loginSlice = createSlice({
         builder
             .addCase(loginByUsername.pending, (state) => {
                 state.isLoading = true;
-                state.error = null;
+                state.error = undefined;
             })
             .addCase(loginByUsername.fulfilled, (state) => {
                 state.username = initialState.username;

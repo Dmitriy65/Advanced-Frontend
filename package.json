@@ -108,6 +108,7 @@
     "chrome-remote-interface": "0.31.3"
   },
   "loki": {
+    "fetchFailIgnore": ".*",
     "configurations": {
       "chrome.laptop": {
         "target": "chrome.app",

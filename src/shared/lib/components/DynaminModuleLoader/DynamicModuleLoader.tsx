@@ -6,36 +6,30 @@ import { Reducer } from '@reduxjs/toolkit';
 
 export type ReducersList = {
     [name in StateSchemeKey]?: Reducer;
-}
+};
 
 interface DynamicModuleLoaderProps {
     reducers: ReducersList;
     removeAfterUnmount?: boolean;
 }
 
-type ReducersListEntry = [StateSchemeKey, Reducer];
-
 export const DynamicModuleLoader: FC<DynamicModuleLoaderProps> = (props) => {
-    const {
-        children,
-        reducers,
-        removeAfterUnmount = false,
-    } = props;
+    const { children, reducers, removeAfterUnmount = false } = props;
 
     const dispatch = useDispatch();
     const store = useStore() as ReduxStoreWithManager;
     useEffect(() => {
         const reducerEntries = Object.entries(reducers);
 
-        reducerEntries.forEach(([name, reducer]: ReducersListEntry) => {
-            store.reducerManager.add(name, reducer);
+        reducerEntries.forEach(([name, reducer]) => {
+            store.reducerManager.add(name as StateSchemeKey, reducer);
             dispatch({ type: `@INIT ${name} reducer` });
         });
 
         return () => {
             if (removeAfterUnmount) {
-                reducerEntries.forEach(([name]: ReducersListEntry) => {
-                    store.reducerManager.remove(name);
+                reducerEntries.forEach(([name]) => {
+                    store.reducerManager.remove(name as StateSchemeKey);
                     dispatch({ type: `@DESTROY ${name} reducer` });
                 });
             }
@@ -46,8 +40,6 @@ export const DynamicModuleLoader: FC<DynamicModuleLoaderProps> = (props) => {
 
     return (
         // eslint-disable-next-line react/jsx-no-useless-fragment
-        <>
-            {children}
-        </>
+        <>{children}</>
     );
 };

@@ -1,4 +1,3 @@
-import { DeepPartial } from '@reduxjs/toolkit';
 import { StateScheme } from 'app/providers/StoreProvider/config/StateScheme';
 import { getLoginState } from './getLoginState';
 
@@ -27,7 +26,7 @@ describe('getLoginState.test', () => {
             username: '',
             password: '',
             isLoading: false,
-            error: null,
+            error: undefined,
         });
     });
 
@@ -37,7 +36,7 @@ describe('getLoginState.test', () => {
                 username: 'admin',
                 password: '123',
                 isLoading: false,
-                error: null,
+                error: undefined,
             },
         };
 
@@ -45,7 +44,7 @@ describe('getLoginState.test', () => {
             username: 'admin',
             password: '123',
             isLoading: false,
-            error: null,
+            error: undefined,
         });
     });
 });

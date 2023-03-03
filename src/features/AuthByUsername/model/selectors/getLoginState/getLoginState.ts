@@ -5,7 +5,7 @@ const defaultLoginState: LoginScheme = {
     username: '',
     password: '',
     isLoading: false,
-    error: null,
+    error: undefined,
 };
 
 export const getLoginState = (state: StateScheme) => state?.loginForm || defaultLoginState;

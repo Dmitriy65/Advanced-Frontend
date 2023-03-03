@@ -1,18 +1,20 @@
 import {
     Action,
-    AnyAction,
+    CombinedState,
     configureStore,
     Dispatch,
     isAnyOf,
     isFulfilled,
-    MiddlewareArray,
+    Reducer,
 } from '@reduxjs/toolkit';
 import { counterReducer } from 'entities/Counter';
 import { userActions, userReducer } from 'entities/User';
 import { USER_LOCALSTORAGE_KEY } from 'shared/constants/localStorage';
 import { loginByUsername } from 'features/AuthByUsername/model/services/loginByUsername';
 import { createReducerManager } from 'app/providers/StoreProvider/config/reducerManager';
-import { ReducersScheme, StateScheme } from './StateScheme';
+import { $api } from 'shared/api/api';
+import { NavigateFunction } from 'react-router';
+import { ReducersScheme, StateScheme, ThunkExtraArg } from './StateScheme';
 
 interface Store {
     dispatch: Dispatch;
@@ -34,7 +36,11 @@ const authMiddleware = (store: Store) => (next: (action: Action) => void) => (ac
     next(action);
 };
 
-export function createReduxStore(initialState: StateScheme, asyncReducers: ReducersScheme) {
+export function createReduxStore(
+    initialState: StateScheme,
+    asyncReducers: ReducersScheme,
+    navigate?: NavigateFunction,
+) {
     const rootReducers: ReducersScheme = {
         ...asyncReducers,
         counter: counterReducer,
@@ -43,11 +49,20 @@ export function createReduxStore(initialState: StateScheme, asyncReducers: Reduc
 
     const reducerManager = createReducerManager(rootReducers);
 
+    const extraArg: ThunkExtraArg = {
+        api: $api,
+        navigate,
+    };
+
     const store = configureStore({
-        reducer: reducerManager.reduce,
+        reducer: reducerManager.reduce as Reducer<CombinedState<StateScheme>>,
         devTools: __IS_DEV__,
         preloadedState: initialState,
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authMiddleware),
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+            thunk: {
+                extraArgument: extraArg,
+            },
+        }).concat(authMiddleware),
     });
 
     // @ts-ignore
