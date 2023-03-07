@@ -9,4 +9,5 @@ export {
     profileReducer,
     profileActions,
     fetchProfileData,
+    updateProfileData,
 };

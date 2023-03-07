@@ -1,9 +1,15 @@
 import { useSelector } from 'react-redux';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { profileActions } from 'entities/Profile';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch/useAppDispatch';
 import { Currency } from 'entities/Currency';
 import { Country } from 'entities/Country';
+import { Text, TextTheme } from 'shared/ui/Text/Text';
+import { ValidationProfileError } from 'entities/Profile/model/types/profile';
+import { useTranslation } from 'react-i18next';
+import {
+    getProfileValidationErrors,
+} from '../../model/selectors/getProfileValidationErrors/getProfileValidationErrors';
 import { getProfileForm } from '../../model/selectors/getProfileForm/getProfileForm';
 import { getProfileLoading } from '../../model/selectors/getProfileLoading/getProfileLoading';
 import { getProfileError } from '../../model/selectors/getProfileError/gerProfileError';
@@ -16,6 +22,8 @@ export const EditableProfileCard = () => {
     const isLoading = useSelector(getProfileLoading);
     const error = useSelector(getProfileError);
     const isReadonly = useSelector(getProfileReadonly);
+    const validationErrors = useSelector(getProfileValidationErrors);
+    const { t } = useTranslation('profile');
 
     const onChangeFirstname = useCallback(
         (value?: string) => {
@@ -73,20 +81,38 @@ export const EditableProfileCard = () => {
         [dispatch],
     );
 
+    const validationErrorsTranslation = useMemo(() => ({
+        [ValidationProfileError.INCORRECT_FIRST_NAME]: t('Имя обязательно'),
+        [ValidationProfileError.INCORRECT_LAST_NAME]: t('Фамилия обязательна'),
+        [ValidationProfileError.INCORRECT_AGE]: t('Некорректный возраст'),
+        [ValidationProfileError.NO_DATA]: t('Данные не указаны'),
+        [ValidationProfileError.SERVER_ERROR]: t('Ошибка сервера при сохранении'),
+    }), [t]);
+
     return (
-        <ProfileCard
-            data={data}
-            error={error}
-            isLoading={isLoading}
-            readonly={isReadonly}
-            onChangeLastname={onChangeLastname}
-            onChangeFirstname={onChangeFirstname}
-            onChangeCity={onChangeCity}
-            onChangeAge={onChangeAge}
-            onChangeUsername={onChangeUsername}
-            onChangeAvatar={onChangeAvatar}
-            onChangeCountry={onChangeCountry}
-            onChangeCurrency={onChangeCurrency}
-        />
+        <>
+            {validationErrors?.length && validationErrors.map((error) => (
+                <Text
+                    theme={TextTheme.ERROR}
+                    text={validationErrorsTranslation[error]}
+                    key={error}
+                />
+            ))}
+            <ProfileCard
+                data={data}
+                error={error}
+                isLoading={isLoading}
+                readonly={isReadonly}
+                onChangeLastname={onChangeLastname}
+                onChangeFirstname={onChangeFirstname}
+                onChangeCity={onChangeCity}
+                onChangeAge={onChangeAge}
+                onChangeUsername={onChangeUsername}
+                onChangeAvatar={onChangeAvatar}
+                onChangeCountry={onChangeCountry}
+                onChangeCurrency={onChangeCurrency}
+            />
+        </>
+
     );
 };
