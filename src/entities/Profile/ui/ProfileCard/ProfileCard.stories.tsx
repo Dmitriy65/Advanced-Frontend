@@ -2,6 +2,7 @@ import React from 'react';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { Currency } from 'entities/Currency';
 import { Country } from 'entities/Country';
+import avatar from 'shared/assets/tests/avatar.webp';
 import { ProfileCard } from './ProfileCard';
 
 export default {
@@ -23,7 +24,7 @@ Primary.args = {
         country: Country.Belarus,
         city: 'Minsk',
         username: 'admin',
-        avatar: 'https://pic.rutubelist.ru/user/3b/27/3b2758ad5492a76b578f7ee072e4e894.jpg',
+        avatar,
     },
 };
 
