@@ -1,13 +1,30 @@
 {
   "Тестовый пример": "Test example",
   "Перевод": "Translate",
-  "Главная": "Main",
+  "Главная страница": "Main page",
   "Язык": "English",
-  "новый перевод": "new translation",
-  "Страница не найдена": "Page Not Found",
-  "Ошибка на странице": "Error on page",
-  "Перезагрузить страницу": "Reload the page",
-  "Переключить": "Toggle",
+  "новый перевод": "новый перевод",
+  "Страница не найдена": "Page not found",
+  "Произошла непредвиденная ошибка": "An unexpected error has occurred",
+  "Обновить страницу": "Reload page",
+  "throw error": "throw error",
+  "Главная": "Main",
+  "О сайте": "About us",
+  "Переключить": "Переключить",
   "Короткий язык": "En",
-  "О сайте": "About us"
+  "Войти": "Login",
+  "increment": "increment",
+  "decrement": "decrement",
+  "Введите username": "Enter username",
+  "Введите пароль": "Enter password",
+  "Форма авторизации": "Auth form",
+  "Вы ввели неверный логин или пароль": "Uncorrect username or password",
+  "Выйти": "Logout",
+  "Укажите валюту": "Choose currency",
+  "Укажите страну": "Choose country",
+  "Профиль": "Profile",
+  "Статья не найдена": "Статья не найдена",
+  "Произошла ошибка при загрузке статьи": {
+    "": "Произошла ошибка при загрузке статьи."
+  }
 }

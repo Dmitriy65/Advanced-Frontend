@@ -7,6 +7,7 @@ import {
 import { ProfileScheme } from 'entities/Profile';
 import { AxiosInstance } from 'axios';
 import { NavigateFunction } from 'react-router';
+import { ArticleDetailsSchema } from 'entities/Article';
 
 export interface StateScheme {
     counter: CounterScheme;
@@ -15,6 +16,7 @@ export interface StateScheme {
 
     // Async reducers
     loginForm?: LoginScheme;
+    articleDetails?: ArticleDetailsSchema;
 }
 
 export type StateSchemeKey = keyof StateScheme;
