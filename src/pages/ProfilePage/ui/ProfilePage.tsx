@@ -7,6 +7,8 @@ import { ProfilePageHeader } from 'pages/ProfilePage/ui/ProfilePageHeader/Profil
 import { EditableProfileCard } from 'entities/Profile/ui/EditableProfileCard/EditableProfileCard';
 import { useEffect } from 'react';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch/useAppDispatch';
+import { useInitialEffect } from 'shared/lib/hooks/useInitialEffect/useInitialEffect';
+import { useParams } from 'react-router-dom';
 
 const reducers: ReducersList = {
     profile: profileReducer,
@@ -14,15 +16,16 @@ const reducers: ReducersList = {
 
 const ProfilePage = () => {
     const dispatch = useAppDispatch();
+    const { id } = useParams<{ id: string }>();
 
-    useEffect(() => {
-        if (__PROJECT__ !== 'storybook') {
-            dispatch(fetchProfileData());
+    useInitialEffect(() => {
+        if (id) {
+            dispatch(fetchProfileData(id));
         }
-    }, [dispatch]);
+    });
 
     return (
-        <DynamicModuleLoader reducers={reducers} removeAfterUnmount>
+        <DynamicModuleLoader reducers={reducers}>
             <ProfilePageHeader />
             <EditableProfileCard />
         </DynamicModuleLoader>

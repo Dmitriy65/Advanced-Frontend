@@ -9,6 +9,8 @@ import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch/useAppDispatch';
 import { getProfileReadonly } from 'entities/Profile/model/selectors/getProfileReadonly/getProfileReadonly';
 import { updateProfileData } from 'entities/Profile/model/services/updateProfileData/updateProfileData';
 import { getProfileLoading } from 'entities/Profile/model/selectors/getProfileLoading/getProfileLoading';
+import { getUserAuthData } from 'entities/User';
+import { getProfileData } from 'entities/Profile/model/selectors/getProfileData/getProfileData';
 import cls from './ProfilePageHeader.module.scss';
 
 interface ProfilePageHeaderProps {
@@ -16,15 +18,16 @@ interface ProfilePageHeaderProps {
 }
 
 export const ProfilePageHeader = (props: ProfilePageHeaderProps) => {
-    const {
-        className,
-    } = props;
+    const { className } = props;
 
     const { t } = useTranslation('profile');
 
+    const profile = useSelector(getProfileData);
     const readonly = useSelector(getProfileReadonly);
     const isLoading = useSelector(getProfileLoading);
+    const authData = useSelector(getUserAuthData);
     const dispatch = useAppDispatch();
+    const canEdit = profile?.id === authData?.id;
 
     const onEdit = useCallback(() => {
         dispatch(profileActions.setReadonly(false));
@@ -45,17 +48,12 @@ export const ProfilePageHeader = (props: ProfilePageHeaderProps) => {
     return (
         <div className={classNames(cls.profilePageHeader, {}, [className])}>
             <Text title={t('Профиль')} />
-            {readonly
-                ? (
-                    <Button
-                        className={cls.editBtn}
-                        theme={ButtonTheme.OUTLINE}
-                        onClick={onEdit}
-                    >
+            {canEdit
+                && (readonly ? (
+                    <Button className={cls.editBtn} theme={ButtonTheme.OUTLINE} onClick={onEdit}>
                         {t('Редактировать')}
                     </Button>
-                )
-                : (
+                ) : (
                     <div className={cls.btnWrapper}>
                         <Button
                             className={classNames('', editMods, [])}
@@ -72,7 +70,7 @@ export const ProfilePageHeader = (props: ProfilePageHeaderProps) => {
                             {t('Сохранить')}
                         </Button>
                     </div>
-                )}
+                ))}
         </div>
     );
 };
