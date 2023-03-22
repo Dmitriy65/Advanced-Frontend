@@ -33,6 +33,8 @@ export const ArticleDetails = memo(({
 }: ArticleDetailsProps) => {
     const { t } = useTranslation();
 
+    console.log(article);
+
     const renderBlock = (block: ArticleBlock) => {
         if (block.type === ArticleBlockType.TEXT) {
             return (
